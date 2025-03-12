@@ -1,4 +1,4 @@
-class p {
+class y {
   constructor() {
     this.width = 0;
   }
@@ -12,7 +12,7 @@ class p {
     return "Empty";
   }
 }
-class k {
+class A {
   constructor(t) {
     this.text = t, this.width = t.length;
   }
@@ -26,7 +26,7 @@ class k {
     return JSON.stringify(this.text);
   }
 }
-class S {
+class $ {
   constructor(t, n) {
     this.doc1 = t, this.doc2 = n, this.width = t.width;
   }
@@ -40,7 +40,7 @@ class S {
     return `(IfFlat ${this.doc1} ${this.doc2})`;
   }
 }
-class A {
+class I {
   constructor() {
     this.width = 1 / 0;
   }
@@ -56,7 +56,7 @@ class A {
     return "HardLine";
   }
 }
-class x {
+class F {
   constructor(t) {
     this.width = t;
   }
@@ -70,17 +70,17 @@ class x {
     return `(Blank ${this.width})`;
   }
 }
-class $ {
+class E {
   constructor(t, n) {
     this.doc1 = t, this.doc2 = n, this.width = t.width + n.width;
   }
   format(t, n, r) {
-    const i = this.doc1.format(t, n, r), s = this.doc2.format(t, n, r);
-    return i + s;
+    const i = this.doc1.format(t, n, r), o = this.doc2.format(t, n, r);
+    return i + o;
   }
   fstep(t, n, r) {
     return t.doc = this.doc1, r.push({
-      type: l.Append1,
+      type: p.Append1,
       doc2: this.doc2,
       flat: t.flat,
       indent: t.indent
@@ -90,7 +90,7 @@ class $ {
     return `(Append ${this.doc1} ${this.doc2})`;
   }
 }
-class u {
+class g {
   constructor(t) {
     this.doc = t, this.width = t.width;
   }
@@ -108,7 +108,7 @@ class u {
     return `(Group ${this.doc})`;
   }
 }
-class I {
+class T {
   constructor(t, n) {
     this.indent = t, this.doc = n, this.width = n.width;
   }
@@ -122,7 +122,7 @@ class I {
     return `(Nest ${this.indent} ${this.doc})`;
   }
 }
-class b {
+class W {
   constructor(t) {
     this.doc = t, this.width = t.width;
   }
@@ -136,69 +136,98 @@ class b {
     return `(Align ${this.doc})`;
   }
 }
-class w {
-  constructor(t, n, r, i, s) {
-    this.lineWidth = t, this.ribbonWidth = n, this.lastIndent = r, this.line = i, this.column = s;
+class S {
+  constructor(t, n, r, i, o) {
+    this.lineWidth = t, this.ribbonWidth = n, this.lastIndent = r, this.line = i, this.column = o;
   }
   canFlatten(t) {
     return t <= this.lineWidth && t <= this.ribbonWidth + this.lastIndent;
   }
 }
-const T = (e, t, n) => {
-  let r = new w(e, t, 0, 0, 0);
+const L = (e, t, n) => {
+  let r = new S(e, t, 0, 0, 0);
   const i = r.canFlatten(n.width);
   return n.format(i, 0, r);
-}, l = {
+}, p = {
   Append1: 0,
   Append2: 1
 };
-function F(e, t, n) {
+function N(e, t, n) {
   const r = e.pop();
-  if (r.type === l.Append1)
-    return n.doc = r.doc2, n.flat = r.flat, n.indent = r.indent, e.push({ type: l.Append2, s1: t }), null;
-  if (r.type === l.Append2)
+  if (r.type === p.Append1)
+    return n.doc = r.doc2, n.flat = r.flat, n.indent = r.indent, e.push({ type: p.Append2, s1: t }), null;
+  if (r.type === p.Append2)
     return r.s1 + t;
 }
-const W = (e, t, n) => {
-  let r = new w(e, t, 0, 0, 0), i = { doc: n, indent: 0, flat: r.canFlatten(n.width) };
-  const s = [];
-  let h = null;
-  for (let a = 0; a < 5e5; a++)
-    if (h === null)
-      h = i.doc.fstep(i, r, s);
+const M = (e, t, n) => {
+  let r = new S(e, t, 0, 0, 0), i = { doc: n, indent: 0, flat: r.canFlatten(n.width) };
+  const o = [];
+  let d = null;
+  for (let m = 0; m < 5e5; m++)
+    if (d === null)
+      d = i.doc.fstep(i, r, o);
     else {
-      if (s.length === 0) return h;
-      h = F(s, h, i);
+      if (o.length === 0) return d;
+      d = N(o, d, i);
     }
   throw new Error(
     "Exceeded maximum number of steps. Do you really need to pretty print that?"
   );
-}, c = new p(), o = (e) => e instanceof p, m = (e, t) => o(e) && o(t) ? c : new S(e, t), _ = (e) => e === 0 ? c : new x(e), g = new A(), N = (e) => m(_(e), g), B = m(_(1), g), G = (e) => {
-  if (e.length === 0) return c;
+}, l = new y(), c = (e) => e instanceof y, b = (e, t) => c(e) && c(t) ? l : new $(e, t), x = (e) => e === 0 ? l : new F(e), k = new I(), s = (e) => b(x(e), k), O = b(x(1), k), w = (e) => {
+  if (e.length === 0) return l;
   if (e.includes(`
 `))
     throw new Error(
-      "Text cannot contain newline characters. Use `hardline` instead."
+      "Text cannot contain newline characters. Use `tabbedString` instead, which convert them to tabs."
     );
-  return new k(e);
-}, d = (e, t) => o(e) ? t : o(t) ? e : new $(e, t), y = (...e) => e.length === 0 ? c : e.reduceRight((t, n) => d(n, t)), f = (e) => o(e) || e.width === 1 / 0 || e instanceof u ? e : new u(e), E = (...e) => e.length === 1 ? f(e[0]) : f(y(...e)), H = (e) => (...t) => {
-  const n = y(...t);
-  return e === 0 ? n : new I(e, n);
-}, K = (e) => o(e) ? c : new b(e), L = (e) => (t, ...n) => n.reduce((r, i) => d(r, E(d(e, i))), t);
+  return new A(e);
+}, R = w, u = (e, t) => c(e) ? t : c(t) ? e : new E(e, t), a = (...e) => e.length === 0 ? l : e.reduceRight((t, n) => u(n, t)), _ = (e) => c(e) || e.width === 1 / 0 || e instanceof g ? e : new g(e), h = (...e) => e.length === 1 ? _(e[0]) : _(a(...e)), f = (e) => (...t) => {
+  const n = a(...t);
+  return e === 0 || c(n) ? n : new T(e, n);
+}, B = (...e) => {
+  const t = a(...e);
+  return c(t) ? l : new W(t);
+}, j = (e) => (...t) => {
+  if (e === 0) return l;
+  const n = a(...t);
+  let r = n;
+  for (let i = 1; i < e; i++) r = u(r, n);
+  return r;
+}, G = (e) => (...t) => {
+  if (t.length === 0) return l;
+  let n = t[0];
+  for (let r = 1; r < t.length; r++)
+    n = u(n, u(e, t[r]));
+  return n;
+}, H = (e) => e.split(`
+`).map(w), v = (e) => G(s(1))(...H(e)), D = (e) => e.split(/\s+/).map(w), J = (e) => (...t) => t.reduce((n, r) => u(n, h(u(e, r)))), U = (e) => (...t) => B(f(e)(...t)), K = (e, t, n) => (...r) => h(n, f(e)(s(t), ...r)), q = (e, t) => (...n) => h(f(e)(s(t), ...n)), z = (e, t, n, r, i) => K(e, t, a(r, s(t), n))(i), C = (e, t, n, r) => (...i) => h(n, f(e)(s(t), ...i), s(t), r), P = (e, t, n, r) => (...i) => h(n, f(e)(h(s(t)), ...i), h(s(t), r));
 export {
-  K as align,
-  y as append,
-  _ as blank,
-  c as empty,
-  L as flow,
-  E as group,
-  g as hardline,
-  m as ifflat,
-  o as isEmpty,
-  H as nest,
-  W as pretty,
-  T as prettyRec,
-  B as space,
-  G as t,
-  N as tab
+  B as align,
+  a as append,
+  u as append2,
+  x as blank,
+  l as empty,
+  J as flow,
+  h as group,
+  U as hang,
+  k as hardline,
+  b as ifflat,
+  z as infix,
+  c as isEmpty,
+  q as jump,
+  H as lines,
+  f as nest,
+  K as prefix,
+  M as pretty,
+  L as prettyRec,
+  j as repeat,
+  G as separate,
+  P as softSurround,
+  O as space,
+  C as surround,
+  w as t,
+  s as tab,
+  v as tabbedString,
+  R as text,
+  D as words
 };
