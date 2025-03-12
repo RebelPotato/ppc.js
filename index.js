@@ -9,7 +9,7 @@ import {
   align,
   prettyRec,
   pretty,
-} from "./ppc.js";
+} from "./lib/pieces.js";
 
 const docs = [
   {
